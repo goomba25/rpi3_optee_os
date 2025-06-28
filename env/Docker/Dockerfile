@@ -48,18 +48,6 @@ RUN     ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 ENV     LANG=en_US.UTF-8
 
 USER    ${USERNAME}
-
-# Download manifest
-RUN	mkdir -p /home/${USERNAME}/optee
-WORKDIR	/home/${USERNAME}/optee
-RUN 	repo init -u https://github.com/OP-TEE/manifest.git -m rpi3.xml -b 4.6.0 && \
-	repo sync -j8 --no-clone-bundle
-
-# Make toolchain
-WORKDIR /home/${USERNAME}/optee/build
-RUN	make -j$(nproc) toolchains
-RUN make -j$(nproc)
-
 WORKDIR /home/${USERNAME}
 
 CMD	/bin/bash
